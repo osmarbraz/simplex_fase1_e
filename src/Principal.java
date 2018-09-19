@@ -1,12 +1,12 @@
 
-/** ***********************************************************************
+/*************************************************************************
  * Considera somente problemas que possam ser resolvidos com a fase 1 
  * do Algoritmo Simplex.
  * 
- *  Dado uma matriz A m por n , um vetor B de tamanho M e um
- *  vetor c de tamanho n, resolve um problema de programação linear
- *  { max cx : Ax <= b, x >= 0 }. Assume que b >= 0 e que x = 0 é a solução
- *  básica factivel.
+ * Dado uma matriz A m por n , um vetor B de tamanho M e um
+ * vetor c de tamanho n, resolve um problema de programação linear
+ * { max cx : Ax <= b, x >= 0 }. Assume que b >= 0 e que x = 0 é a solução
+ * básica factivel.
  *
  * Cria um tableau simplex (M+1)por (N+M+1) com a coluna RHS M+N, a função
  * objetivo na linha M, e as variáveis de folga nas colunas M a M+N+1
@@ -25,9 +25,9 @@ public class Principal {
     /**
      * Monta tableau original.
      * 
-     * @param A Matriz das restrições
-     * @param b Vetor das constantes
-     * @param c Coeficientes da função objetivo
+     * @param A Matriz das restrições.
+     * @param b Vetor das constantes de A.
+     * @param c Coeficientes da função objetivo.
      */    
     public static void montaTableau(double[][] A, double[] b, double[] c){
         //Quantidade de variáveis não básicas ou seja a quantidade de restrições do problema
@@ -69,9 +69,9 @@ public class Principal {
     /** 
      * Roda o algoritmo simplex apartir de uma solução inicial BFS.
      * 
-     * @param A Matriz das restrições
-     * @param b Vetor das constantes de A
-     * @param c Coeficientes da função objetivo
+     * @param A Matriz das restrições.
+     * @param b Vetor das constantes de A.
+     * @param c Coeficientes da função objetivo.
      */
     public static void solver(double[][] A, double[] b, double[] c) {
         //Passo 1 - Monta o Tableau
@@ -106,7 +106,7 @@ public class Principal {
     /**
      * Indice de uma coluna não básica com o maior custo.
      * 
-     * @return a coluna da variável de entrada ou -1
+     * @return a coluna da variável de entrada ou -1.
      */    
     private static int encontraVariavelEntrada() {
         double maior = 0;
@@ -127,7 +127,7 @@ public class Principal {
     /**
      * Encontra linha p usando a regra da menor razão.(-1 se não houver a linha).
      * 
-     * @param k coluna do pivo
+     * @param k coluna do pivô.
      * @return A linha da variável de saída ou -1.
      */      
     private static int encontraVariavelSaida(int k) {
@@ -157,8 +157,8 @@ public class Principal {
     /**
      * Calcula o pivot com a entrada(p, q) usando o método de eliminação de Gauss-Jordan.
      * 
-     * @param p Linha do pivô
-     * @param q Coluna do pivô
+     * @param p Linha do pivô.
+     * @param q Coluna do pivô.
      */
     private static void recalculaBase(int p, int q) {
         //Calcula somente se existir um pivô        
@@ -203,6 +203,7 @@ public class Principal {
 
      /**
      * Testa a otimalidade verificando se é a solução básica fáctivel.
+     * 
      * Como os coeficientes de x1 e x2  são negativos na linha 0, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
      *  incremento positivo em x1  ou x2  resultará em SBF adjacente 
@@ -283,9 +284,9 @@ public class Principal {
     /**
      * Executa o algoritmo solver.
      * 
-     * @param A Matriz das restrições
-     * @param b Vetor das constantes de A
-     * @param c Coeficientes da função objetivo
+     * @param A Matriz das restrições.
+     * @param b Vetor das constantes de A.
+     * @param c Coeficientes da função objetivo.
      */
     public static void teste(double[][] A, double[] b, double[] c) {        
         //Monta o tableau
@@ -316,6 +317,7 @@ public class Principal {
      * X1 >= 0
      * X2 >= 0
      * END
+     * 
      *  3   5   0   0   0   0
      *  1   0   1   0   0   4
      *  0   2   0   1   0   12
@@ -348,6 +350,7 @@ public class Principal {
      * x2 <=30
      * x1 >= 0 x2 >= 0 
      * END
+     * 
      *  1000   1800   0    0    0      0
      *    20     30   1    0    0   1200
      *     1      0   0    1    0     40
@@ -368,7 +371,6 @@ public class Principal {
         teste(A, b, c);
     }
    
-
     /**
      * Programa principal.
      * 
@@ -382,7 +384,6 @@ public class Principal {
         
         //Executa o teste do caso 2
         testeCaso2();        
-        System.out.println("--------------------------------");
-        
+        System.out.println("--------------------------------");        
     }
 }

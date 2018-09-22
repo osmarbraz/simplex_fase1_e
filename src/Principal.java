@@ -216,7 +216,7 @@ public class Principal {
      /**
      * Testa a otimalidade verificando se é a solução básica fáctivel.
      * 
-     * Procura algum valor negativo em c(linha M).
+     * Procura algum valor negativo em c(linha m).
      * 
      * Como os coeficientes de x1 e x2  são negativos na linha m, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
@@ -287,7 +287,7 @@ public class Principal {
         //Função objetivo        
         System.out.println("A solução foi encontrada com " + iteracoes + " iterações");
         System.out.println("   z = " + getValor());
-        //Variáveis
+        //Variáveis básicas
         double[] x = getPrimal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + (i+1) + "] = " + x[i]);

@@ -11,6 +11,14 @@
  * Cria um tableau simplex (M+1)por (N+M+1) com a coluna RHS M+N, a função
  * objetivo na linha M, e as variáveis de folga nas colunas M a M+N+1
  * 
+ * M = {1,2,..., m}, o conjunto dos índices das restrições do problema
+ * N = {1,2,..., n}, o conjunto dos índices das variáveis do problema
+ * z é a função objetivo;
+ * xj são as variáveis de decisão, principais ou controláveis, j = 1, 2,..., n;
+ * aij é a constante ou coeficiente da i-ésima restrição da j-ésima variável, i = 1, 2,...,m, j = 1, 2,...,n;
+ * bi é o termo independente ou quantidade de recursos disponíveis da i-ésima restrição, i = 1, 2,...,m;
+ * cj é a constante ou coeficiente da j-ésima variável da função objetivo, j = 1, 2,...,n
+ * 
  *************************************************************************/
 
 public class Principal {
@@ -113,7 +121,7 @@ public class Principal {
         // ótimo
         int colunaMaior = -1;
         //Procura somente nas variáveis não base
-        for (int j = 0; j < M; j++) {
+        for (int j = 0; j < N; j++) {
             //Maior maior absoluto
             if (Math.abs(a[M][j]) > maior) {
                 maior =  Math.abs(a[M][j]);

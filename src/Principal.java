@@ -24,8 +24,8 @@
 public class Principal {
     
     private static double[][] a;   // tableau
-    private static int M;          // número de restrições
-    private static int N;          // número de variáveis base
+    private static int m;          // número de restrições
+    private static int n;          // número de variáveis base
     private static int iteracoes ; // número de iterações
     private static int[] base;     // base[i] = variável básica correspondente a linha i
                                     // Necessário somente para imprimir a solução.
@@ -39,38 +39,38 @@ public class Principal {
      */    
     public static void montaTableau(double[][] A, double[] b, double[] c){
         //Quantidade de variáveis não básicas ou seja a quantidade de restrições do problema
-        M = b.length;
+        m = b.length;
         //Quantidade de variáveis não básicas
-        N = c.length;
+        n = c.length;
         //Uma linha e coluna adicional para função objetivo
-        a = new double[M + 1][N + M + 1];
+        a = new double[m + 1][n + m + 1];
         //Copia as restrições para a matriz A para a
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < N; j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 a[i][j] = A[i][j];
             }
         }
         //Adiciona 1 para a diagonal principal das variaveis básicas
         //Considera a partir de N+1 onde N é a quantidade de variáveis 
         //não básicas até M que é a quantidade de variáveis básicas
-        for (int i = 0; i < M; i++) {
-            a[i][N + i] = 1.0;
+        for (int i = 0; i < m; i++) {
+            a[i][n + i] = 1.0;
         }
         //Adiciona a constante da função objetivo para a linha M
-        for (int j = 0; j < N; j++) {
+        for (int j = 0; j < n; j++) {
             //Inverte o sinal do coeficiente c
-            a[M][j] = -c[j];
+            a[m][j] = -c[j];
         }
         
         //Adiciona constante das restrições a coluna M+N
-        for (int i = 0; i < M; i++) {
-            a[i][M + N] = b[i];
+        for (int i = 0; i < m; i++) {
+            a[i][m + n] = b[i];
         }
 
         //Vetor auxiliar para imprimir a solução das variáveis básicas
-        base = new int[M];
-        for (int i = 0; i < M; i++) {
-            base[i] = N + i;            
+        base = new int[m];
+        for (int i = 0; i < m; i++) {
+            base[i] = n + i;            
         }
     }
     
@@ -120,15 +120,15 @@ public class Principal {
        double maior = 0;
         int colunaMaior = -1;
         //Procura somente nas variáveis não base
-        for (int j = 0; j < N; j++) {            
+        for (int j = 0; j < n; j++) {            
             //Usa o primeiro elemento como maior para inicializar p
             if (colunaMaior==-1){
-                maior =  Math.abs(a[M][j]);
+                maior =  Math.abs(a[m][j]);
                 colunaMaior = j;
             } else {
                 //Maior maior absoluto
-                if (Math.abs(a[M][j]) > maior) {
-                    maior =  Math.abs(a[M][j]);
+                if (Math.abs(a[m][j]) > maior) {
+                    maior =  Math.abs(a[m][j]);
                     colunaMaior = j;
                 }
             }
@@ -147,17 +147,17 @@ public class Principal {
         int linhaMenor = -1;        
         // Posição do pivo deve ser diferente de -1
         if (k != -1){
-            for (int i = 0; i < M; i++) {
+            for (int i = 0; i < m; i++) {
                 //aik deve ser positivo
                 if (a[i][k] > 0) {
                     //Usa o primeiro elemento maior que 0 como menor para inicializar p
                     if (linhaMenor==-1){
                         linhaMenor = i;
-                        menor = a[i][M + N] / a[i][k];
+                        menor = a[i][m + n] / a[i][k];
                     } else {
-                        if ((a[i][M + N] / a[i][k]) < menor) {
+                        if ((a[i][m + n] / a[i][k]) < menor) {
                             linhaMenor = i;
-                            menor =  a[i][M + N] / a[i][k];
+                            menor =  a[i][m + n] / a[i][k];
                         }
                     }               
                 } 
@@ -181,20 +181,20 @@ public class Principal {
             //Guarda o valor do pivo
             double valorPivo = a[p][q];
             //Percorre a coluna
-            for (int j = 0; j <= M + N; j++) {
+            for (int j = 0; j <= m + n; j++) {
                 //Recalcula o elemento da linha a[p][j]
                 a[p][j] = a[p][j]/valorPivo;
             }
             
             // Recalcula as outras linhas da matriz a menos a linha p            
             //Percorre as linhas
-            for (int i = 0; i <= M; i++) {
+            for (int i = 0; i <= m; i++) {
                 //Menos para linha do pivo
                 if (i != p) {      
                     //Guarda o coeficiente da coluna do pivô
                     double coeficienteColunaPivo = a[i][q];
                     //Percorre a coluna
-                    for (int j = 0; j <= M + N; j++) {
+                    for (int j = 0; j <= m + n; j++) {
                         //Recalcula o elemento
                         a[i][j] = a[i][j] - (coeficienteColunaPivo * a[p][j]);
                     }
@@ -210,7 +210,7 @@ public class Principal {
      */
     public static double getValor() {
         //Última linha e coluna da matriz a
-        return a[M][M + N];
+        return a[m][m + n];
     }
 
      /**
@@ -230,7 +230,7 @@ public class Principal {
         while ((k < c.length) && (temNegativo==false)){
             // verifica se a[M][k] < 0
             // M é a última linha da matriz a
-            if (a[M][k] < 0.0){
+            if (a[m][k] < 0.0){
                 temNegativo = true;                
             }
             k = k + 1;
@@ -242,23 +242,23 @@ public class Principal {
      * Mostra o tableau.
      */
     public static void mostraTableau() {
-        System.out.println("M = " + M + " e N = " + N);        
+        System.out.println("M = " + m + " e N = " + n);        
         //Cabeçalho do tableau
         System.out.printf("\t\t");
-        for (int i = 0; i < M + N; i++) {
+        for (int i = 0; i < m + n; i++) {
             System.out.printf("   x[%d]\t\t",i);
         }
         System.out.printf("      b");
         System.out.println();
 
         //Matriz a        
-        for (int i = 0; i <= M; i++) {
-            if (i>=M){
+        for (int i = 0; i <= m; i++) {
+            if (i>=m){
                 System.out.printf("z =\t");
             } else {
-                System.out.printf("x["+(N+i)+"] =\t");
+                System.out.printf("x["+(n+i)+"] =\t");
             }
-            for (int j = 0; j <= M + N; j++) {
+            for (int j = 0; j <= m + n; j++) {
                 System.out.printf("\t%7.2f ", a[i][j]);
             }
             System.out.println();
@@ -271,10 +271,10 @@ public class Principal {
      * @return um vetor com a solução
      */
     public static double[] getPrimal() {
-        double[] x = new double[N];
-        for (int i = 0; i < M; i++) {
-            if (base[i] < N) {
-                x[base[i]] = a[i][M + N];
+        double[] x = new double[n];
+        for (int i = 0; i < m; i++) {
+            if (base[i] < n) {
+                x[base[i]] = a[i][m + n];
             }
         }
         return x;

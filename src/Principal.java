@@ -117,20 +117,24 @@ public class Principal {
      * @return a coluna da variável de entrada ou -1.
      */    
     private static int encontraVariavelEntrada() {
-        double maior = 0;
-        // ótimo
+       double maior = 0;
         int colunaMaior = -1;
         //Procura somente nas variáveis não base
-        for (int j = 0; j < N; j++) {
-            //Maior maior absoluto
-            if (Math.abs(a[M][j]) > maior) {
+        for (int j = 0; j < N; j++) {            
+            //Usa o primeiro elemento como maior para inicializar p
+            if (colunaMaior==-1){
                 maior =  Math.abs(a[M][j]);
                 colunaMaior = j;
+            } else {
+                //Maior maior absoluto
+                if (Math.abs(a[M][j]) > maior) {
+                    maior =  Math.abs(a[M][j]);
+                    colunaMaior = j;
+                }
             }
         }        
         return colunaMaior;  
     }
-
   
     /**
      * Encontra linha p usando a regra da menor razão.(-1 se não houver a linha).

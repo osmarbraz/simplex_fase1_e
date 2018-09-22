@@ -204,7 +204,9 @@ public class Principal {
      /**
      * Testa a otimalidade verificando se é a solução básica fáctivel.
      * 
-     * Como os coeficientes de x1 e x2  são negativos na linha 0, 
+     * Procura algum valor negativo em c(linha M).
+     * 
+     * Como os coeficientes de x1 e x2  são negativos na linha M, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
      *  incremento positivo em x1  ou x2  resultará em SBF adjacente 
      *  melhor do que a SBF atual.
@@ -212,10 +214,9 @@ public class Principal {
     private static boolean testarOtimalidade(double[] c) {
         int k = 0;
         boolean temNegativo = false;
-        // verifica se x < 0
         //Se existir um elemento negativo interrompe o laço
         while ((k < c.length) && (temNegativo==false)){
-            // verifica se a[M][x] < 0
+            // verifica se a[M][k] < 0
             // M é a última linha da matriz a
             if (a[M][k] < 0.0){
                 temNegativo = true;                

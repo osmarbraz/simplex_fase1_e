@@ -67,7 +67,7 @@ public class Principal {
         // Adiciona a constante da função objetivo para a linha m
         for (int j = 0; j < n; j++) {
             //Inverte o sinal do coeficiente c
-            a[m][j] = -c[j];
+            a[m][j] = c[j];
         }
         
         // Adiciona constante das restrições a coluna n+m
@@ -96,7 +96,7 @@ public class Principal {
         // Conta as iterações
         iteracoes = 0;
         // Passo 2 - Verifica condições de otimalidade
-        while (testarOtimalidade(c)==true) {
+        while (testarOtimalidade()==true) {
             
             // Passo 2.1 Regra de Entrada 
             // encontra a coluna que deve entrar na base
@@ -134,7 +134,7 @@ public class Principal {
                 maior =  Math.abs(a[m][j]);
                 colunaMaior = j;
             } else {
-                // Maior maior absoluto
+                // Maior valor absoluto
                 if (Math.abs(a[m][j]) > maior) {
                     maior =  Math.abs(a[m][j]);
                     colunaMaior = j;
@@ -231,11 +231,11 @@ public class Principal {
      * incremento positivo em x1  ou x2  resultará em SBF adjacente 
      * melhor do que a SBF atual.
     */
-    private static boolean testarOtimalidade(double[] c) {
+    private static boolean testarOtimalidade() {
         int k = 0;
         boolean temNegativo = false;
         // Se existir um elemento negativo interrompe o laço
-        while ((k < c.length) && (temNegativo==false)){
+        while ((k < n + m) && (temNegativo==false)){
             // verifica se a[m][k] < 0
             // m é a última linha da matriz a
             if (a[m][k] < 0.0){
@@ -264,7 +264,7 @@ public class Principal {
             if (i>=m){
                 System.out.printf("z =\t");
             } else {
-                System.out.printf("x["+(n+i)+"] =\t");
+                System.out.printf("x["+base[i]+"] =\t");
             }
             for (int j = 0; j <= n + m; j++) {
                 System.out.printf("\t%7.2f ", a[i][j]);
@@ -298,7 +298,7 @@ public class Principal {
         // Variáveis básicas
         double[] x = getPrimal();
         for (int i = 0; i < x.length; i++) {
-            System.out.println("x[" + (i+1) + "] = " + x[i]);
+            System.out.println("x[" + i + "] = " + x[i]);
         }                
     }
     
@@ -350,11 +350,11 @@ public class Principal {
             {1, 0},
             {0, 2},
             {3, 2}
-        };        
-        // Coeficientes da função objetivo
-        double[] c = {3, 5};
+        };
         // Constante das equações de A 
         double[] b = {4, 12, 18};
+         // Coeficientes da função objetivo
+        double[] c = {-3, -5};
         // Executa o teste para o problema
         teste(A, b, c);
     }
@@ -387,7 +387,7 @@ public class Principal {
         // Constante das equações de A 
         double[] b = {1200, 40, 30};
         // Coeficientes da função objetivo
-        double[] c = {1000, 1800};
+        double[] c = {-1000, -1800};
         // Executa o teste para o problema
         teste(A, b, c);
     }

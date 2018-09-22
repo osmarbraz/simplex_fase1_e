@@ -8,8 +8,8 @@
  * { max cx : Ax <= b, x >= 0 }. Assume que b >= 0 e que x = 0 é a solução
  * básica factivel.
  *
- * Cria um tableau simplex (M+1)por (N+M+1) com a coluna RHS M+N, a função
- * objetivo na linha M, e as variáveis de folga nas colunas M a M+N+1
+ * Cria um tableau simplex (m+1)por (n+m+1) com a coluna RHS n+m, a função
+ * objetivo na linha m, e as variáveis de folga nas colunas m a n+m+1
  * 
  * M = {1,2,..., m}, o conjunto dos índices das restrições do problema
  * N = {1,2,..., n}, o conjunto dos índices das variáveis do problema
@@ -25,7 +25,7 @@ public class Principal {
     
     private static double[][] a;   // tableau
     private static int m;          // número de restrições
-    private static int n;          // número de variáveis base
+    private static int n;          // número de variáveis não básicas
     private static int iteracoes ; // número de iterações
     private static int[] base;     // base[i] = variável básica correspondente a linha i
                                     // Necessário somente para imprimir a solução.
@@ -51,8 +51,8 @@ public class Principal {
             }
         }
         //Adiciona 1 para a diagonal principal das variaveis básicas
-        //Considera a partir de N+1 onde N é a quantidade de variáveis 
-        //não básicas até M que é a quantidade de variáveis básicas
+        //Considera a partir de n+1 onde n é a quantidade de variáveis 
+        //não básicas até m que é a quantidade de variáveis básicas
         for (int i = 0; i < m; i++) {
             a[i][n + i] = 1.0;
         }
@@ -62,9 +62,9 @@ public class Principal {
             a[m][j] = -c[j];
         }
         
-        //Adiciona constante das restrições a coluna M+N
+        //Adiciona constante das restrições a coluna n+m
         for (int i = 0; i < m; i++) {
-            a[i][m + n] = b[i];
+            a[i][n + m] = b[i];
         }
 
         //Vetor auxiliar para imprimir a solução das variáveis básicas
@@ -114,7 +114,7 @@ public class Principal {
     /**
      * Indice de uma coluna não básica com o maior custo.
      * 
-     * @return a coluna da variável de entrada ou -1.
+     * @return Coluna da variável de entrada ou -1.
      */    
     private static int encontraVariavelEntrada() {
        double maior = 0;
@@ -139,13 +139,13 @@ public class Principal {
     /**
      * Encontra linha p usando a regra da menor razão.(-1 se não houver a linha).
      * 
-     * @param k coluna do pivô.
+     * @param k Coluna do pivô.
      * @return A linha da variável de saída ou -1.
      */      
     private static int encontraVariavelSaida(int k) {
         double menor = 0;
         int linhaMenor = -1;        
-        // Posição do pivo deve ser diferente de -1
+        // Posição do pivô deve ser diferente de -1
         if (k != -1){
             for (int i = 0; i < m; i++) {
                 //aik deve ser positivo
@@ -167,7 +167,7 @@ public class Principal {
     }
 
     /**
-     * Calcula o pivot com a entrada(p, q) usando o método de eliminação de Gauss-Jordan.
+     * Calcula o pivô com a entrada(p, q) usando o método de eliminação de Gauss-Jordan.
      * 
      * @param p Linha do pivô.
      * @param q Coluna do pivô.
@@ -177,11 +177,11 @@ public class Principal {
         // p e q devem ser diferente de -1
         if ((p!=-1) && (q != -1)){    
             
-            //Calcula a linha do pivo
-            //Guarda o valor do pivo
+            //Calcula a linha do pivô
+            //Guarda o valor do pivô
             double valorPivo = a[p][q];
             //Percorre a coluna
-            for (int j = 0; j <= m + n; j++) {
+            for (int j = 0; j <= n + m; j++) {
                 //Recalcula o elemento da linha a[p][j]
                 a[p][j] = a[p][j]/valorPivo;
             }
@@ -189,12 +189,12 @@ public class Principal {
             // Recalcula as outras linhas da matriz a menos a linha p            
             //Percorre as linhas
             for (int i = 0; i <= m; i++) {
-                //Menos para linha do pivo
+                //Menos para linha do pivô
                 if (i != p) {      
                     //Guarda o coeficiente da coluna do pivô
                     double coeficienteColunaPivo = a[i][q];
                     //Percorre a coluna
-                    for (int j = 0; j <= m + n; j++) {
+                    for (int j = 0; j <= n + m; j++) {
                         //Recalcula o elemento
                         a[i][j] = a[i][j] - (coeficienteColunaPivo * a[p][j]);
                     }
@@ -204,13 +204,13 @@ public class Principal {
     }
 
     /**
-     * Retorna o valor ótimo do objetivo.
+     * Retorna o valor ótimo da função objetivo.
      * 
-     * @return O valor ótima do objetivo.
+     * @return Valor ótimo da função objetivo.
      */
     public static double getValor() {
         //Última linha e coluna da matriz a
-        return a[m][m + n];
+        return a[m][n + m];
     }
 
      /**
@@ -218,7 +218,7 @@ public class Principal {
      * 
      * Procura algum valor negativo em c(linha M).
      * 
-     * Como os coeficientes de x1 e x2  são negativos na linha M, 
+     * Como os coeficientes de x1 e x2  são negativos na linha m, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
      *  incremento positivo em x1  ou x2  resultará em SBF adjacente 
      *  melhor do que a SBF atual.
@@ -228,8 +228,8 @@ public class Principal {
         boolean temNegativo = false;
         //Se existir um elemento negativo interrompe o laço
         while ((k < c.length) && (temNegativo==false)){
-            // verifica se a[M][k] < 0
-            // M é a última linha da matriz a
+            // verifica se a[m][k] < 0
+            // m é a última linha da matriz a
             if (a[m][k] < 0.0){
                 temNegativo = true;                
             }
@@ -242,10 +242,10 @@ public class Principal {
      * Mostra o tableau.
      */
     public static void mostraTableau() {
-        System.out.println("M = " + m + " e N = " + n);        
+        System.out.println("m = " + m + " e n = " + n);        
         //Cabeçalho do tableau
         System.out.printf("\t\t");
-        for (int i = 0; i < m + n; i++) {
+        for (int i = 0; i < n + m; i++) {
             System.out.printf("   x[%d]\t\t",i);
         }
         System.out.printf("      b");
@@ -258,7 +258,7 @@ public class Principal {
             } else {
                 System.out.printf("x["+(n+i)+"] =\t");
             }
-            for (int j = 0; j <= m + n; j++) {
+            for (int j = 0; j <= n + m; j++) {
                 System.out.printf("\t%7.2f ", a[i][j]);
             }
             System.out.println();
@@ -274,7 +274,7 @@ public class Principal {
         double[] x = new double[n];
         for (int i = 0; i < m; i++) {
             if (base[i] < n) {
-                x[base[i]] = a[i][m + n];
+                x[base[i]] = a[i][n + m];
             }
         }
         return x;

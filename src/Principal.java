@@ -23,17 +23,18 @@
 
 public class Principal {
     
-    private static double[][] a;   // tableau
-        // linha 0 até m-1 = restrições 
-        // linha m   = função objetivo
-        // coluna 0 até n-1 = variáveis
-        // coluna n até n+m-1 = variáveis de folga
-        // coluna n+m = constante das restrições    
-    private static int m;          // número de restrições
-    private static int n;          // número de variáveis não básicas
-    private static int iteracoes ; // número de iterações
-    private static int[] base;     // base[i] = variável básica correspondente a linha i
-                                   // Necessário somente para imprimir a solução.
+    private static double[][] a;    // tableau
+                                    // linha 0 até m-1 = restrições 
+                                    // linha m = função objetivo
+                                    // coluna 0 até n-1 = variáveis
+                                    // coluna n até n+m-1 = variáveis de folga
+                                    // coluna n+m = constante das restrições    
+    
+    private static int m;           // número de restrições
+    private static int n;           // número de variáveis não básicas
+    private static int iteracoes ;  // número de iterações
+    private static int[] base;      // base[i] = variável básica correspondente a linha i
+                                    // Necessário somente para imprimir a solução.
     
     /**
      * Monta tableau original.
@@ -47,7 +48,9 @@ public class Principal {
         m = b.length;
         // Quantidade de variáveis do problema
         n = c.length;
-        // Uma linha e coluna adicional para função objetivo
+        //Adição de 1 linha para função objetivo z
+        //Adição de m colunas para as variáveis de folga
+        //Adição de 1 coluna para a constante das restrições
         a = new double[m + 1][n + m + 1];
         //Copia as restrições para a matriz A para a
         for (int i = 0; i < m; i++) {

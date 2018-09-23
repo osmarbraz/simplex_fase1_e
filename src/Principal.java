@@ -120,24 +120,27 @@ public class Principal {
     }
 
     /**
-     * Indice de uma coluna não básica com o maior custo.
+     * Indice de uma coluna não básica com o maior custo negativo.
      * 
      * @return Coluna da variável de entrada ou -1.
      */    
     private static int encontraVariavelEntrada() {
-       double maior = 0;
+        double maior = 0;
         int colunaMaior = -1;
         // Procura somente nas variáveis não base
         for (int j = 0; j < n; j++) {            
-            // Usa o primeiro elemento como maior para inicializar p
-            if (colunaMaior==-1){
-                maior =  Math.abs(a[m][j]);
-                colunaMaior = j;
-            } else {
-                // Maior valor absoluto
-                if (Math.abs(a[m][j]) > maior) {
+            // amj deve ser negativo
+            if (a[m][j] < 0) {
+                // Usa o primeiro elemento como maior para inicializar p
+                if (colunaMaior==-1){
                     maior =  Math.abs(a[m][j]);
                     colunaMaior = j;
+                } else {
+                    // Maior valor absoluto
+                    if (Math.abs(a[m][j]) > maior) {
+                        maior =  Math.abs(a[m][j]);
+                        colunaMaior = j;
+                    }
                 }
             }
         }        
